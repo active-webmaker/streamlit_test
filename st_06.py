@@ -1,10 +1,25 @@
+# -*- coding: utf-8 -*-
 import streamlit as st
 from openai import OpenAI
 import os
+import sys
 from dotenv import load_dotenv
 
 # .env 로드 (환경변수 우선)
 load_dotenv(override=False)
+
+# 강제 UTF-8 인코딩 설정 (Windows 콘솔/서버 환경에서 이모지/한글 출력 시 오류 방지)
+try:
+    if hasattr(sys, "stdout") and hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+    if hasattr(sys, "stderr") and hasattr(sys.stderr, "reconfigure"):
+        sys.stderr.reconfigure(encoding="utf-8")
+except Exception:
+    # 일부 환경에서는 reconfigure 가 불가능할 수 있음
+    pass
+
+# 하위 프로세스/라이브러리용 기본 인코딩 힌트
+os.environ.setdefault("PYTHONIOENCODING", "utf-8")
 
 st.set_page_config(page_title="부트캠프 멘토 챗봇", page_icon="🧑‍💻", layout="centered")
 
